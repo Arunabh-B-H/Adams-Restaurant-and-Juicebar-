@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { motion } from 'framer-motion';
 import API from '../api';
 import { SectionTitle } from './AboutSection';
 import toast from 'react-hot-toast';
@@ -29,7 +30,14 @@ export default function ContactSection({ content }) {
       <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
         <SectionTitle label="Get In Touch" title="Enquiries & Reservations" />
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '5rem' }}>
+        <motion.div
+          initial={{ opacity: 0, scale: 0.98, y: 30 }}
+          whileInView={{ opacity: 1, scale: 1, y: 0 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+          className="contact-grid"
+          style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '5rem' }}
+        >
           {/* Contact Info */}
           <div>
             <div style={{ marginBottom: '3rem' }}>
@@ -68,7 +76,7 @@ export default function ContactSection({ content }) {
               </div>
             ) : (
               <div>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0 1rem' }}>
+                <div className="contact-form-row" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0 1rem' }}>
                   <input placeholder="Full Name *" value={form.name} onChange={e => setForm({...form, name: e.target.value})} style={inputStyle}
                     onFocus={e => e.target.style.borderColor = 'rgba(201,168,76,0.6)'} onBlur={e => e.target.style.borderColor = 'rgba(201,168,76,0.2)'} />
                   <input placeholder="Email Address *" type="email" value={form.email} onChange={e => setForm({...form, email: e.target.value})} style={inputStyle}
@@ -95,7 +103,7 @@ export default function ContactSection({ content }) {
               </div>
             )}
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

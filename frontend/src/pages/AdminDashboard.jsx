@@ -68,9 +68,18 @@ const card = {
   marginBottom: "1rem",
   background: "rgba(201,168,76,0.02)",
 };
-
+function useIsMobile() {
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+  return isMobile;
+}
 // ─── Sidebar ───────────────────────────────────────────
 function Sidebar({ admin, onLogout }) {
+  const isMobile = useIsMobile();
   const links = [
     { to: "/admin", label: "Overview", icon: "⬡", end: true },
     { to: "/admin/content", label: "Site Content", icon: "✏️" },
@@ -79,37 +88,63 @@ function Sidebar({ admin, onLogout }) {
     { to: "/admin/reviews", label: "Reviews", icon: "⭐" },
   ];
   return (
-    <div style={sidebarStyle}>
+    <div className="admin-sidebar" style={{ 
+      width: isMobile ? "100%" : "260px",
+      minHeight: isMobile ? "auto" : "100vh",
+      background: "#060300",
+      borderRight: isMobile ? "none" : "1px solid rgba(201,168,76,0.12)",
+      borderBottom: isMobile ? "1px solid rgba(201,168,76,0.12)" : "none",
+      padding: isMobile ? "1rem" : "0",
+      flexShrink: 0,
+      position: "relative",
+      display: "flex",
+      flexDirection: "column"
+    }}>
       <div
         style={{
-          padding: "2rem 1.5rem",
-          borderBottom: "1px solid rgba(201,168,76,0.1)",
+          padding: isMobile ? "0 0 1rem 0" : "2rem 1.5rem",
+          borderBottom: isMobile ? "none" : "1px solid rgba(201,168,76,0.1)",
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center"
         }}
       >
-        <div
-          style={{
-            fontFamily: "Cormorant Garamond,serif",
-            color: "#c9a84c",
-            fontSize: "1.3rem",
-            fontWeight: 600,
-          }}
-        >
-          Adam's Admin
+        <div>
+          <div
+            style={{
+              fontFamily: "Cormorant Garamond,serif",
+              color: "#c9a84c",
+              fontSize: "1.3rem",
+              fontWeight: 600,
+            }}
+          >
+            Adam's Admin
+          </div>
+          {!isMobile && (
+            <div
+              style={{
+                fontFamily: "Jost,sans-serif",
+                fontSize: "0.65rem",
+                letterSpacing: "0.2em",
+                textTransform: "uppercase",
+                color: "rgba(201,168,76,0.5)",
+                marginTop: "0.25rem",
+              }}
+            >
+              Control Panel
+            </div>
+          )}
         </div>
-        <div
-          style={{
-            fontFamily: "Jost,sans-serif",
-            fontSize: "0.65rem",
-            letterSpacing: "0.2em",
-            textTransform: "uppercase",
-            color: "rgba(201,168,76,0.5)",
-            marginTop: "0.25rem",
-          }}
-        >
-          Control Panel
-        </div>
+        {isMobile && (
+          <button
+            onClick={onLogout}
+            style={{ ...btnOutline, padding: "0.4rem 1rem", fontSize: "0.65rem", width: "auto" }}
+          >
+            Sign Out
+          </button>
+        )}
       </div>
-      <nav style={{ padding: "1rem 0" }}>
+      <nav className="admin-nav-links" style={{ padding: isMobile ? "0" : "1rem 0", display: "flex", flexDirection: isMobile ? "row" : "column", overflowX: isMobile ? "auto" : "visible", gap: isMobile ? "0.5rem" : "0" }}>
         {links.map((l) => (
           <NavLink
             key={l.to}
@@ -119,17 +154,17 @@ function Sidebar({ admin, onLogout }) {
               display: "flex",
               alignItems: "center",
               gap: "0.75rem",
-              padding: "0.85rem 1.5rem",
+              padding: isMobile ? "0.6rem 1rem" : "0.85rem 1.5rem",
               textDecoration: "none",
               color: isActive ? "#c9a84c" : "rgba(253,248,240,0.5)",
               background: isActive ? "rgba(201,168,76,0.08)" : "transparent",
-              borderLeft: isActive
-                ? "2px solid #c9a84c"
-                : "2px solid transparent",
+              borderLeft: !isMobile && isActive ? "2px solid #c9a84c" : !isMobile ? "2px solid transparent" : "none",
+              borderBottom: isMobile && isActive ? "2px solid #c9a84c" : isMobile ? "2px solid transparent" : "none",
               fontFamily: "Jost,sans-serif",
               fontSize: "0.82rem",
               letterSpacing: "0.08em",
               transition: "all 0.2s",
+              whiteSpace: "nowrap"
             })}
           >
             <span>{l.icon}</span>
@@ -137,43 +172,45 @@ function Sidebar({ admin, onLogout }) {
           </NavLink>
         ))}
       </nav>
-      <div
-        style={{
-          position: "absolute",
-          bottom: 0,
-          left: 0,
-          width: "260px",
-          padding: "1.5rem",
-          borderTop: "1px solid rgba(201,168,76,0.1)",
-        }}
-      >
-        <p
+      {!isMobile && (
+        <div
           style={{
-            fontFamily: "Jost,sans-serif",
-            fontSize: "0.78rem",
-            color: "rgba(253,248,240,0.5)",
-            marginBottom: "0.5rem",
+            position: "absolute",
+            bottom: 0,
+            left: 0,
+            width: "260px",
+            padding: "1.5rem",
+            borderTop: "1px solid rgba(201,168,76,0.1)",
           }}
         >
-          {admin?.name}
-        </p>
-        <p
-          style={{
-            fontFamily: "Jost,sans-serif",
-            fontSize: "0.68rem",
-            color: "rgba(253,248,240,0.3)",
-            marginBottom: "1rem",
-          }}
-        >
-          {admin?.email}
-        </p>
-        <button
-          onClick={onLogout}
-          style={{ ...btnOutline, width: "100%", fontSize: "0.7rem" }}
-        >
-          Sign Out
-        </button>
-      </div>
+          <p
+            style={{
+              fontFamily: "Jost,sans-serif",
+              fontSize: "0.78rem",
+              color: "rgba(253,248,240,0.5)",
+              marginBottom: "0.5rem",
+            }}
+          >
+            {admin?.name}
+          </p>
+          <p
+            style={{
+              fontFamily: "Jost,sans-serif",
+              fontSize: "0.68rem",
+              color: "rgba(253,248,240,0.3)",
+              marginBottom: "1rem",
+            }}
+          >
+            {admin?.email}
+          </p>
+          <button
+            onClick={onLogout}
+            style={{ ...btnOutline, width: "100%", fontSize: "0.7rem" }}
+          >
+            Sign Out
+          </button>
+        </div>
+      )}
     </div>
   );
 }
@@ -272,6 +309,7 @@ function Overview() {
         Welcome back to Adam's Restaurant Admin Panel
       </p>
       <div
+        className="admin-stats-grid"
         style={{
           display: "grid",
           gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))",
@@ -1395,6 +1433,7 @@ function ReviewsManager() {
 export default function AdminDashboard() {
   const { admin, logout } = useAuth();
   const navigate = useNavigate();
+  const isMobile = useIsMobile();
 
   const handleLogout = () => {
     logout();
@@ -1403,15 +1442,17 @@ export default function AdminDashboard() {
 
   return (
     <div
+      className="admin-layout"
       style={{
         display: "flex",
+        flexDirection: isMobile ? "column" : "row",
         minHeight: "100vh",
         fontFamily: "Jost,sans-serif",
         position: "relative",
       }}
     >
       <Sidebar admin={admin} onLogout={handleLogout} />
-      <div style={contentStyle}>
+      <div style={{ flex: 1, background: "#0e0600", minHeight: isMobile ? "auto" : "100vh", overflow: "auto" }}>
         <Routes>
           <Route index element={<Overview />} />
           <Route path="content" element={<ContentEditor />} />

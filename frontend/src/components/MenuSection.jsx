@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import { SectionTitle } from './AboutSection';
 
 const DEFAULT_MENU = [
@@ -19,7 +20,14 @@ export default function MenuSection({ content }) {
       <div style={{ maxWidth: '1000px', margin: '0 auto' }}>
         <SectionTitle label="Taste the Experience" title="Menu Highlights" />
         
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '0' }}>
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+          className="menu-grid"
+          style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '0' }}
+        >
           {items.map((item, i) => (
             <div key={i} style={{ padding: '2.5rem', borderBottom: '1px solid rgba(201,168,76,0.1)', borderRight: i % 2 === 0 ? '1px solid rgba(201,168,76,0.1)' : 'none', transition: 'background 0.3s', cursor: 'default' }}
               onMouseEnter={e => e.currentTarget.style.background = 'rgba(201,168,76,0.04)'}
@@ -32,13 +40,19 @@ export default function MenuSection({ content }) {
               <span style={{ fontFamily: 'var(--font-sans)', fontSize: '0.65rem', fontWeight: 500, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--gold-dark)', background: 'rgba(201,168,76,0.1)', padding: '0.25rem 0.75rem' }}>{item.category}</span>
             </div>
           ))}
-        </div>
+          </motion.div>
 
-        <div style={{ textAlign: 'center', marginTop: '3rem', padding: '1.5rem', border: '1px solid rgba(201,168,76,0.15)', background: 'rgba(201,168,76,0.03)' }}>
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1, delay: 0.5 }}
+          style={{ textAlign: 'center', marginTop: '3rem', padding: '1.5rem', border: '1px solid rgba(201,168,76,0.15)', background: 'rgba(201,168,76,0.03)' }}
+        >
           <p style={{ fontFamily: 'var(--font-serif)', fontSize: '1rem', fontStyle: 'italic', color: 'var(--gold-light)' }}>
             Full menu available at the restaurant. Seasonal specials updated daily.
           </p>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

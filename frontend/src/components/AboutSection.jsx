@@ -1,9 +1,17 @@
+import { motion } from 'framer-motion';
+
 const SectionTitle = ({ label, title, light }) => (
-  <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
+  <motion.div
+    initial={{ opacity: 0, y: 40 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: true, margin: "-50px" }}
+    transition={{ duration: 1.2, ease: [0.25, 0.1, 0.25, 1] }}
+    style={{ textAlign: 'center', marginBottom: '3rem' }}
+  >
     <p style={{ fontFamily: 'var(--font-sans)', fontSize: '0.7rem', fontWeight: 400, letterSpacing: '0.4em', textTransform: 'uppercase', color: 'var(--gold)', marginBottom: '0.75rem' }}>✦ {label} ✦</p>
     <h2 style={{ fontFamily: 'var(--font-serif)', fontSize: 'clamp(2rem, 5vw, 3.5rem)', fontWeight: 300, color: light ? 'var(--dark)' : 'var(--cream)', letterSpacing: '0.02em' }}>{title}</h2>
     <div style={{ width: '60px', height: '1px', background: 'var(--gold)', margin: '1rem auto 0' }} />
-  </div>
+  </motion.div>
 );
 
 export { SectionTitle };
@@ -18,7 +26,14 @@ export default function AboutSection({ content }) {
       <div style={{ maxWidth: '1100px', margin: '0 auto', position: 'relative' }}>
         <SectionTitle label="Our Story" title={a.title || "A Legacy of Flavor"} />
         
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '4rem', alignItems: 'center' }}>
+        <motion.div
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 1.2, delay: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
+          className="about-grid"
+          style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '4rem', alignItems: 'center' }}
+        >
           <div>
             <p style={{ fontFamily: 'var(--font-serif)', fontSize: '1.2rem', fontStyle: 'italic', lineHeight: 1.8, color: 'var(--gold-light)', marginBottom: '1.5rem' }}>
               {a.body || "Founded in 2018, Adam's Restaurant & JuiceBar was born from a passion for authentic flavors and wholesome living."}
@@ -33,7 +48,7 @@ export default function AboutSection({ content }) {
             )}
           </div>
           
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+          <div className="about-stats" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
             {[
               { num: '2018', label: 'Est. Year' },
               { num: '5000+', label: 'Happy Guests' },
@@ -46,7 +61,7 @@ export default function AboutSection({ content }) {
               </div>
             ))}
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

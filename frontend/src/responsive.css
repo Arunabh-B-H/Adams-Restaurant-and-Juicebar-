@@ -1,0 +1,262 @@
+/* frontend/src/responsive.css */
+
+/* Global responsive text resets */
+html, body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+/* ================================
+   Hero Section
+   ================================ */
+@media (max-width: 768px) {
+  .hero-buttons {
+    flex-direction: column !important;
+    gap: 1rem !important;
+  }
+  .hero-buttons a {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+/* ================================
+   About Section
+   ================================ */
+@media (max-width: 768px) {
+  .about-grid {
+    grid-template-columns: 1fr !important;
+    gap: 2rem !important;
+  }
+  .about-stats {
+    grid-template-columns: 1fr 1fr !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .about-stats {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* ================================
+   Founder Section
+   ================================ */
+@media (max-width: 900px) {
+  .founder-grid {
+    grid-template-columns: 1fr !important;
+    gap: 2rem !important;
+  }
+}
+
+/* ================================
+   Gallery Section
+   ================================ */
+@media (max-width: 768px) {
+  .gallery-filters {
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+  }
+  .gallery-filters button {
+    margin-bottom: 0.5rem !important;
+  }
+  /* Masonry columns handle this nicely usually, but we might drop columns if they are hardcoded */
+}
+
+/* ================================
+   Menu Section
+   ================================ */
+@media (max-width: 900px) {
+  .menu-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* ================================
+   Reviews Section
+   ================================ */
+@media (max-width: 768px) {
+  .reviews-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .review-card-header {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 0.5rem !important;
+  }
+  .review-form-overlay > div {
+    width: 95% !important;
+    padding: 1.5rem !important;
+  }
+}
+
+/* ================================
+   Contact / Enquiry Section
+   ================================ */
+@media (max-width: 768px) {
+  .contact-grid {
+    grid-template-columns: 1fr !important;
+    gap: 3rem !important;
+  }
+  .contact-form-row {
+    grid-template-columns: 1fr !important;
+    gap: 1rem !important;
+  }
+}
+
+/* ================================
+   Footer
+   ================================ */
+@media (max-width: 768px) {
+  .footer-grid {
+    grid-template-columns: 1fr !important;
+    gap: 2.5rem !important;
+    text-align: center !important;
+  }
+  .footer-bottom {
+    flex-direction: column !important;
+    gap: 1rem !important;
+  }
+}
+
+/* Admin Layouts handled natively via useIsMobile hook in React */
+
+@media (max-width: 768px) {
+  /* Public Section Resets for Mobile */
+  section {
+    padding: 4rem 1.25rem !important; /* Cut padding in half for mobile */
+  }
+  
+  /* Text and Image scaling for smaller screens */
+  p {
+    font-size: 0.85rem !important;
+    line-height: 1.6 !important;
+  }
+  h2 {
+    font-size: 2rem !important;
+  }
+  h3 {
+    font-size: 1.5rem !important;
+  }
+  
+  /* Prevent images like Founder from being massive on mobile */
+  img {
+    max-height: 50vh !important;
+    object-position: center top !important;
+  }
+
+  /* Admin general typography scaling */
+  .admin-sidebar > div:first-child div {
+    font-size: 1.1rem !important;
+  }
+  .admin-nav-links a {
+    font-size: 0.65rem !important;
+    padding: 0.4rem 0.6rem !important;
+    gap: 0.35rem !important;
+  }
+  .admin-layout h2 { 
+    font-size: 1.4rem !important; 
+    margin-bottom: 0.75rem !important;
+  }
+  .admin-layout h3 { 
+    font-size: 1.1rem !important; 
+    margin-bottom: 0.5rem !important;
+  }
+  .admin-layout button { 
+    font-size: 0.6rem !important; 
+    padding: 0.4rem 0.8rem !important; 
+  }
+  .admin-layout input, 
+  .admin-layout select, 
+  .admin-layout textarea { 
+    font-size: 0.75rem !important; 
+    padding: 0.5rem 0.8rem !important; 
+  }
+  
+  /* Make stats grid 2-columns but smaller padded */
+  .admin-stats-grid {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 0.75rem !important;
+  }
+  .admin-stats-grid > div {
+    padding: 1rem 0.5rem !important;
+  }
+  .admin-stats-grid > div > div:first-child {
+    font-size: 1.6rem !important;
+  }
+  .admin-stats-grid > div > div:nth-child(2) {
+    font-size: 0.55rem !important;
+  }
+
+  .admin-content-table {
+    display: block !important;
+    overflow-x: auto !important;
+    white-space: nowrap !important;
+    font-size: 0.8rem !important;
+  }
+}
+
+/* ================================
+   Mobile Deep Optimization (iPhones)
+   ================================ */
+@media (max-width: 480px) {
+  /* Ultra-tight padding for small screens */
+  section {
+    padding: 3rem 1rem !important;
+  }
+  
+  /* Strictly standardize typography for iPhones */
+  h1 {
+    font-size: 2.25rem !important;
+  }
+  h2 {
+    font-size: 1.75rem !important;
+  }
+  h3 {
+    font-size: 1.35rem !important;
+  }
+  p {
+    font-size: 0.85rem !important;
+  }
+  
+  /* Aggressively shrink pictures for compact mobile layout */
+  img {
+    max-height: 35vh !important;
+  }
+
+  /* Compact button styling */
+  .hero-buttons a {
+    padding: 0.8rem 1.5rem !important;
+    font-size: 0.75rem !important;
+  }
+
+  /* Tighter menu cards */
+  .menu-grid > div {
+    padding: 1.5rem !important;
+  }
+
+  /* Stack admin stats cleanly */
+  .admin-stats-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Forms and tight spacing */
+  .contact-grid {
+    gap: 2rem !important;
+  }
+
+  /* Compact Footer Typography */
+  .footer-grid div:first-child div:first-child {
+    font-size: 1.3rem !important; /* Adam's */
+  }
+  .footer-grid div:first-child div:nth-child(2) {
+    font-size: 0.6rem !important; /* Restaurant & Juicebar */
+  }
+  .footer-grid p, .footer-grid a {
+    font-size: 0.75rem !important;
+  }
+  .footer-bottom p {
+    font-size: 0.65rem !important;
+  }
+}

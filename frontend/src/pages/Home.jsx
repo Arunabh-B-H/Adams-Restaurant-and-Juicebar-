@@ -72,7 +72,7 @@ export default function Home() {
       <MenuSection content={content?.menuHighlights} />
       <ReviewsSection />
       <ContactSection content={content?.contact} />
-      <Footer />
+      <Footer content={content?.contact} />
     </div>
   );
 }

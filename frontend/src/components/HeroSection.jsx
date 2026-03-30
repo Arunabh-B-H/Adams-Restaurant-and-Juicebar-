@@ -2,8 +2,10 @@ export default function HeroSection({ content }) {
   const h = content || {};
   return (
     <section id="home" style={{ position: 'relative', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
-      {/* Background */}
-      <div style={{ position: 'absolute', inset: 0, backgroundImage: `url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1600')`, backgroundSize: 'cover', backgroundPosition: 'center', filter: 'brightness(0.35)' }} />
+      {/* Classic Ken Burns Background */}
+      <div style={{ position: 'absolute', inset: 0, overflow: 'hidden' }}>
+        <div style={{ width: '100%', height: '100%', backgroundImage: `url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1600')`, backgroundSize: 'cover', backgroundPosition: 'center', filter: 'brightness(0.35)', animation: 'kenBurns 30s ease-out forwards' }} />
+      </div>
       
       {/* Gradient overlays */}
       <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(14,6,0,0.4) 0%, transparent 40%, rgba(14,6,0,0.8) 100%)' }} />
@@ -29,7 +31,7 @@ export default function HeroSection({ content }) {
         </p>
         {h.tagline && <p style={{ fontFamily: 'var(--font-serif)', fontSize: '1.3rem', fontStyle: 'italic', color: 'var(--gold-light)', marginTop: '0.5rem' }}>{h.tagline}</p>}
         
-        <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', marginTop: '2.5rem', flexWrap: 'wrap' }}>
+        <div className="hero-buttons" style={{ display: 'flex', gap: '1rem', justifyContent: 'center', marginTop: '2.5rem', flexWrap: 'wrap' }}>
           <a href="#gallery" style={{ display: 'inline-block', padding: '0.9rem 2.5rem', background: 'var(--gold)', color: 'var(--dark)', fontFamily: 'var(--font-sans)', fontSize: '0.8rem', fontWeight: 600, letterSpacing: '0.2em', textTransform: 'uppercase', textDecoration: 'none', transition: 'all 0.3s' }}
             onMouseEnter={e => { e.target.style.background = 'var(--gold-light)'; e.target.style.transform = 'translateY(-2px)'; }}
             onMouseLeave={e => { e.target.style.background = 'var(--gold)'; e.target.style.transform = 'none'; }}>
@@ -50,8 +52,9 @@ export default function HeroSection({ content }) {
       </div>
 
       <style>{`
-        @keyframes fadeUp { from { opacity:0; transform:translateY(30px); } to { opacity:1; transform:translateY(0); } }
+        @keyframes fadeUp { from { opacity:0; transform:translateY(40px); } to { opacity:1; transform:translateY(0); } }
         @keyframes bounce { 0%,100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(6px); } }
+        @keyframes kenBurns { 0% { transform: scale(1); } 100% { transform: scale(1.15); } }
       `}</style>
     </section>
   );

@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
 import API from '../api';
 import { SectionTitle } from './AboutSection';
 
@@ -36,7 +37,14 @@ export default function GallerySection() {
         <SectionTitle label="Visual Journey" title="Gallery" />
 
         {/* Filter tabs */}
-        <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', marginBottom: '3rem', flexWrap: 'wrap' }}>
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+          className="gallery-filters"
+          style={{ display: 'flex', gap: '1rem', justifyContent: 'center', marginBottom: '3rem', flexWrap: 'wrap' }}
+        >
           {categories.map(cat => (
             <button key={cat} onClick={() => setFilter(cat)} style={{
               padding: '0.5rem 1.5rem', border: filter === cat ? '1px solid var(--gold)' : '1px solid rgba(201,168,76,0.3)',
@@ -47,10 +55,16 @@ export default function GallerySection() {
               {cat}
             </button>
           ))}
-        </div>
+        </motion.div>
 
         {loading ? <div style={{ textAlign: 'center', color: 'var(--gold)', padding: '4rem', fontFamily: 'var(--font-serif)', fontSize: '1.5rem' }}>Loading gallery…</div> : (
-          <div style={{ columns: 'auto 300px', gap: '1rem' }}>
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.8, delay: 0.1 }}
+            style={{ columns: 'auto 300px', gap: '1rem' }}
+          >
             {filtered.map(item => (
               <div key={item._id} onClick={() => setSelected(item)} style={{ marginBottom: '1rem', breakInside: 'avoid', cursor: 'pointer', position: 'relative', overflow: 'hidden', group: true }}>
                 <img src={imgSrc(item.imageUrl)} alt={item.title} style={{ width: '100%', display: 'block', transition: 'transform 0.5s ease' }}
@@ -65,7 +79,7 @@ export default function GallerySection() {
                 </div>
               </div>
             ))}
-          </div>
+          </motion.div>
         )}
       </div>
 

@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
 import API from '../api';
 import { SectionTitle } from './AboutSection';
 import toast from 'react-hot-toast';
@@ -76,7 +77,7 @@ export default function ReviewsSection() {
             <h3 style={{ fontFamily: 'var(--font-serif)', fontSize: '1.5rem', color: 'var(--gold)', marginBottom: '1.5rem' }}>
               {editing ? 'Edit Review' : 'Share Your Experience'}
             </h3>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '1rem' }}>
+            <div className="review-form-row" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '1rem' }}>
               <input placeholder="Your Name" value={form.name} onChange={e => setForm({...form, name: e.target.value})} style={inputStyle} />
               <input placeholder="Email Address" type="email" value={form.email} onChange={e => setForm({...form, email: e.target.value})} style={inputStyle} />
             </div>
@@ -100,12 +101,18 @@ export default function ReviewsSection() {
               <p style={{ fontFamily: 'var(--font-serif)', fontSize: '1.3rem', fontStyle: 'italic', color: 'rgba(253,248,240,0.4)' }}>Be the first to share your experience.</p>
             </div>
           ) : (
-            <div style={{ display: 'grid', gap: '1.5rem' }}>
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="reviews-grid" style={{ display: 'grid', gap: '1.5rem' }}
+            >
               {reviews.map(r => (
                 <div key={r._id} style={{ border: '1px solid rgba(201,168,76,0.12)', padding: '2rem', background: 'rgba(201,168,76,0.02)', transition: 'border-color 0.3s' }}
                   onMouseEnter={e => e.currentTarget.style.borderColor = 'rgba(201,168,76,0.3)'}
                   onMouseLeave={e => e.currentTarget.style.borderColor = 'rgba(201,168,76,0.12)'}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '1rem', marginBottom: '1rem' }}>
+                  <div className="review-card-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '1rem', marginBottom: '1rem' }}>
                     <div>
                       <h4 style={{ fontFamily: 'var(--font-serif)', fontSize: '1.2rem', color: 'var(--cream)', marginBottom: '0.25rem' }}>{r.name}</h4>
                       <StarRating value={r.rating} readonly />
@@ -126,7 +133,7 @@ export default function ReviewsSection() {
                   )}
                 </div>
               ))}
-            </div>
+            </motion.div>
           )}
       </div>
     </section>

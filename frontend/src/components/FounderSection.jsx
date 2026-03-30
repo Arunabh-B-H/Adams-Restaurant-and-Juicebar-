@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import { SectionTitle } from './AboutSection';
 
 export default function FounderSection({ content }) {
@@ -10,14 +11,23 @@ export default function FounderSection({ content }) {
       <div style={{ maxWidth: '1100px', margin: '0 auto', position: 'relative' }}>
         <SectionTitle label="Meet the Visionary" title="Our Founder" />
         
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '5rem', alignItems: 'center' }}>
+        <motion.div
+          initial={{ opacity: 0, scale: 0.98, y: 40 }}
+          whileInView={{ opacity: 1, scale: 1, y: 0 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 1.2, delay: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
+          className="founder-grid"
+          style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '5rem', alignItems: 'center' }}
+        >
           {/* Photo */}
           <div style={{ position: 'relative' }}>
             <div style={{ position: 'absolute', top: '-15px', left: '-15px', right: '15px', bottom: '15px', border: '1px solid rgba(201,168,76,0.3)' }} />
             <img 
               src={f.imageUrl || 'https://images.unsplash.com/photo-1577219491135-ce391730fb2c?w=600'} 
               alt={f.name || 'Founder'}
-              style={{ width: '100%', aspectRatio: '3/4', objectFit: 'cover', display: 'block', filter: 'sepia(10%) contrast(1.05)', position: 'relative' }}
+              style={{ width: '100%', aspectRatio: '3/4', objectFit: 'cover', display: 'block', filter: 'sepia(20%) grayscale(40%) contrast(1.1)', position: 'relative', transition: 'all 1.2s ease' }}
+              onMouseEnter={e => { e.currentTarget.style.filter = 'sepia(0%) grayscale(0%) contrast(1)'; e.currentTarget.style.transform = 'scale(1.02)'; }}
+              onMouseLeave={e => { e.currentTarget.style.filter = 'sepia(20%) grayscale(40%) contrast(1.1)'; e.currentTarget.style.transform = 'scale(1)'; }}
             />
             <div style={{ position: 'absolute', bottom: '-20px', right: '-20px', background: 'var(--gold)', color: 'var(--dark)', padding: '1rem 1.5rem', fontFamily: 'var(--font-serif)', fontWeight: 600 }}>
               <div style={{ fontSize: '1.8rem', lineHeight: 1 }}>Since</div>
@@ -49,7 +59,7 @@ export default function FounderSection({ content }) {
               </div>
             )}
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

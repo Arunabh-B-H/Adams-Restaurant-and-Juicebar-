@@ -252,6 +252,7 @@
 
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import API from "../api";
 
 const navLinks = [
   { label: "Home", href: "#home" },
@@ -275,7 +276,14 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    try {
+      if (isAdmin) {
+        await API.post('/auth/logout');
+      }
+    } catch (err) {
+      console.error("Logout error", err);
+    }
     localStorage.removeItem("adams_token");
     setIsAdmin(false);
     window.location.reload(); // Ensures the UI updates and routes reset
@@ -369,8 +377,8 @@ export default function Navbar() {
           ))}
 
           {/* Admin / Logout Button */}
-          <li>
-            {isAdmin ? (
+          {isAdmin && (
+            <li>
               <button
                 onClick={handleLogout}
                 style={{
@@ -389,34 +397,8 @@ export default function Navbar() {
               >
                 Logout
               </button>
-            ) : (
-              <Link
-                to="/admin/login"
-                style={{
-                  color: "var(--gold)",
-                  border: "1px solid var(--gold)",
-                  padding: "0.4rem 1rem",
-                  textDecoration: "none",
-                  fontFamily: "var(--font-sans)",
-                  fontSize: "0.75rem",
-                  fontWeight: 500,
-                  letterSpacing: "0.12em",
-                  textTransform: "uppercase",
-                  transition: "all 0.3s",
-                }}
-                onMouseEnter={(e) => {
-                  e.target.style.background = "var(--gold)";
-                  e.target.style.color = "var(--dark)";
-                }}
-                onMouseLeave={(e) => {
-                  e.target.style.background = "transparent";
-                  e.target.style.color = "var(--gold)";
-                }}
-              >
-                Admin
-              </Link>
-            )}
-          </li>
+            </li>
+          )}
         </ul>
 
         {/* Hamburger */}
@@ -496,7 +478,7 @@ export default function Navbar() {
               {l.label}
             </a>
           ))}
-          {isAdmin ? (
+          {isAdmin && (
             <button
               onClick={handleLogout}
               style={{
@@ -512,22 +494,6 @@ export default function Navbar() {
             >
               Logout
             </button>
-          ) : (
-            <Link
-              to="/admin/login"
-              onClick={() => setOpen(false)}
-              style={{
-                display: "block",
-                marginTop: "1rem",
-                color: "var(--gold)",
-                textDecoration: "none",
-                fontFamily: "var(--font-sans)",
-                fontSize: "0.9rem",
-                letterSpacing: "0.1em",
-              }}
-            >
-              Admin Panel
-            </Link>
           )}
         </div>
       )}
